@@ -1,0 +1,7 @@
+<resources>
+    <string name="main_act">MainActivity</string>
+    <string name="begin_act">BeginActivity</string>
+    <string name="first_kotlin_app">First Kotlin App</string>
+    <string name="attention">Atenção</string>
+    <string name="unknown_error">Erro desconhecido</string>
+</resources>
