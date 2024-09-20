@@ -12,11 +12,15 @@ import com.example.myapplication.network.server.ServerRequest
 
 
 class LoginRepository(val context: Context) : LoginAuthRequest(context), LoginAuthRequest.OnAuthSuccess, ServerRequest.OnErrorListener{
-
     open var onLoginCallback: OnLoginCallback? = null
     open var onLoginErrorCallback: OnErrorListener? = null
     open var blast: Blast? = null
     val set: PerSet = PerSet(context)
+
+    init {
+        super.setAuthSuccess(this)
+        super.onErrorListener = this
+    }
 
     override fun onAuthSuccess(bundle: BranchBundle) {
         val profile = bundle.profiles?.get(0)

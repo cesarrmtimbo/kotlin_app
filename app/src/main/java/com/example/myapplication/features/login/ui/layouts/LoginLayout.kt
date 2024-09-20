@@ -30,7 +30,6 @@ import androidx.compose.ui.unit.dp
 import com.example.myapplication.R
 import com.example.myapplication.features.login.data.viewmodel.LoginCubit
 import com.example.myapplication.features.login.ui.components.LoginRequestButton
-import com.example.myapplication.features.login.ui.components.PopUp
 import com.example.myapplication.features.login.ui.theme.MyApplicationTheme
 
 @Composable

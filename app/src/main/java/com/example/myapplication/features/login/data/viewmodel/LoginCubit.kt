@@ -8,24 +8,28 @@ import androidx.datastore.preferences.preferencesDataStore
 import com.example.myapplication.features.login.data.model.tags.request.USER_PREFS
 import com.example.myapplication.features.login.data.repository.LoginRepository
 import com.example.myapplication.features.login.ui.components.myToast
-import com.example.myapplication.network.server.ServerRequest
+import com.example.myapplication.network.server.ServerRequest.OnErrorListener
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.MutableStateFlow
 
-
-class LoginCubit(private val context: Context, loginRepository: LoginRepository) :
-    ServerRequest.OnErrorListener {
-
-    var scope: CoroutineScope? = null
-    val loginRepository = loginRepository
-    open var b: Blast? = null
+class LoginCubit(open val context: Context, loginRepository: LoginRepository) : OnErrorListener {
 
     val Context.dataStore by preferencesDataStore(name = USER_PREFS)
-
+    var scope: CoroutineScope? = null
     var userName: MutableState<String> = mutableStateOf("")
     var password: MutableState<String> = mutableStateOf("")
+    private val loginRepository = loginRepository
+
+    private var b: Blast? = null
+    var _showPop = MutableStateFlow(b)
+
+    init {
+        loginRepository.onLoginErrorCallback = this
+    }
 
     suspend fun enterBtClick() {
-        loginRepository.onLoginErrorCallback = this
+        loginRepository.setLogin(userName.value)
+        loginRepository.setPass(password.value)
         loginRepository.makeRequest();
         myToast(
             context = context,
@@ -33,8 +37,13 @@ class LoginCubit(private val context: Context, loginRepository: LoginRepository)
         )
     }
 
-    override fun onError(e: Blast) {
-        b = e
+    open fun closePop(){
+        _showPop.value = null
     }
+
+    override fun onError(e: Blast) {
+        _showPop.value = e
+    }
+
 
 }

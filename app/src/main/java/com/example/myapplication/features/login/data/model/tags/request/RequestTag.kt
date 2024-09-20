@@ -11,6 +11,7 @@ const val USER_PREFS = "user_preferences"
 const val DEFAULT_EMAIL = "teste@teste.com.br"
 const val VERSION_NOT_FOUND = "Versão não encontrada"
 const val AUTHENTICATION_FAIL = "Autenticação falhou"
+const val TRY_FAIL = "Tentativa de conexão falhou"
 const val serialVersionUID = 331L
 
 const val SHARED_SETTINGS = "SHAREDSETTINGS"

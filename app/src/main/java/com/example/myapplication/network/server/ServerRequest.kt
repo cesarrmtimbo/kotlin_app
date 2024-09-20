@@ -13,7 +13,6 @@ import com.example.myapplication.features.login.data.model.tags.request.TIME_OUT
 import com.example.myapplication.features.login.data.model.tags.request.api_key
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
-import io.ktor.client.request.get
 import io.ktor.client.request.post
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.bodyAsText

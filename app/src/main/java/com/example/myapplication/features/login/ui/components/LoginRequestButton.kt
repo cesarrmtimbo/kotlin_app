@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Popup
 import com.example.myapplication.features.login.data.viewmodel.LoginCubit
 import kotlinx.coroutines.launch
 
@@ -28,8 +29,10 @@ fun LoginRequestButton(cubit: LoginCubit) {
             if (cubit.scope != null)
                 cubit.scope!!.launch {
                     cubit.enterBtClick()
+
                 }
         }) {
+        PopUpError(cubit = cubit)
         Text("Enter", color = Color.LightGray)
     }
 }
