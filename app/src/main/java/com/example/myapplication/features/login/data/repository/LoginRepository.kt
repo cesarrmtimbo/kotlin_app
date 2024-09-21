@@ -9,13 +9,15 @@ import com.example.myapplication.features.login.data.model.tags.request.AUTHENTI
 import com.example.myapplication.network.server.LoginAuthRequest
 import com.example.myapplication.network.server.OnLoginCallback
 import com.example.myapplication.network.server.ServerRequest
+import kotlinx.coroutines.flow.MutableStateFlow
 
 
-class LoginRepository(val context: Context) : LoginAuthRequest(context), LoginAuthRequest.OnAuthSuccess, ServerRequest.OnErrorListener{
+class LoginRepository(val context: Context) : LoginAuthRequest(context),
+    LoginAuthRequest.OnAuthSuccess, ServerRequest.OnErrorListener {
     open var onLoginCallback: OnLoginCallback? = null
     open var onLoginErrorCallback: OnErrorListener? = null
-    open var blast: Blast? = null
     val set: PerSet = PerSet(context)
+    override lateinit var showPop: MutableStateFlow<Blast?>
 
     init {
         super.setAuthSuccess(this)
@@ -28,7 +30,7 @@ class LoginRepository(val context: Context) : LoginAuthRequest(context), LoginAu
         set.addBundle(bundle)
         set.login(profile!!.login!!, profile.pass)
 
-        if(context is BeginActivity){
+        if (context is BeginActivity) {
             context.onLoginSuccess(true)
         }
     }
@@ -40,9 +42,14 @@ class LoginRepository(val context: Context) : LoginAuthRequest(context), LoginAu
 
     override fun onError(e: Blast) {
         e.title(AUTHENTICATION_FAIL)
-        blast = e
-        if(onLoginErrorCallback != null){
+        if (onLoginErrorCallback != null) {
             onLoginErrorCallback!!.onError(e)
+        }
+    }
+
+    override fun closePop() {
+        if (showPop.value != null) {
+            showPop.value = null
         }
     }
 

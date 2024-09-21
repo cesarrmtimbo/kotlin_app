@@ -16,6 +16,7 @@ import io.ktor.client.engine.cio.CIO
 import io.ktor.client.request.post
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.bodyAsText
+import kotlinx.coroutines.flow.MutableStateFlow
 import java.util.concurrent.TimeUnit
 import androidx.compose.runtime.mutableStateMapOf as mutableStateMapOf1
 
@@ -91,7 +92,9 @@ open class ServerRequest(context: Context) {
     }
 
     interface OnErrorListener {
+        var showPop: MutableStateFlow<Blast?>
         fun onError(e: Blast)
+        fun closePop()
     }
 
     interface OnSuccess {

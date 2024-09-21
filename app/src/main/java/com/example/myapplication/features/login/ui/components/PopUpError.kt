@@ -10,7 +10,7 @@ import com.example.myapplication.features.login.data.viewmodel.LoginCubit
 
 @Composable
 fun PopUpError(cubit: LoginCubit) {
-    val show by cubit._showPop.collectAsState()
+    val show by cubit.showPop.collectAsState()
 
     if((show != null)){
         AlertDialog(

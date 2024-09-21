@@ -7,7 +7,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.datastore.preferences.preferencesDataStore
 import com.example.myapplication.features.login.data.model.tags.request.USER_PREFS
 import com.example.myapplication.features.login.data.repository.LoginRepository
-import com.example.myapplication.features.login.ui.components.myToast
 import com.example.myapplication.network.server.ServerRequest.OnErrorListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,7 +20,7 @@ class LoginCubit(open val context: Context, loginRepository: LoginRepository) : 
     private val loginRepository = loginRepository
 
     private var b: Blast? = null
-    var _showPop = MutableStateFlow(b)
+    override var showPop = MutableStateFlow(b)
 
     init {
         loginRepository.onLoginErrorCallback = this
@@ -30,20 +29,15 @@ class LoginCubit(open val context: Context, loginRepository: LoginRepository) : 
     suspend fun enterBtClick() {
         loginRepository.setLogin(userName.value)
         loginRepository.setPass(password.value)
-        loginRepository.makeRequest();
-        myToast(
-            context = context,
-            message = "Enviando dados de login, aguarde..."
-        )
-    }
-
-    open fun closePop(){
-        _showPop.value = null
+        loginRepository.makeRequest()
     }
 
     override fun onError(e: Blast) {
-        _showPop.value = e
+        loginRepository.showPop = showPop
+        loginRepository.showPop.value = e
     }
 
-
+    override fun closePop() {
+        loginRepository.closePop()
+    }
 }
