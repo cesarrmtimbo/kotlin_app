@@ -35,7 +35,7 @@ open class ServerRequest(context: Context) {
 
     open suspend fun prepareRequest(path: String) {
         val client = HttpClient(CIO)
-        var u = Utils();
+        var u = Utils()
 
         try {
             response = client.post(SERVER_URL + path) {

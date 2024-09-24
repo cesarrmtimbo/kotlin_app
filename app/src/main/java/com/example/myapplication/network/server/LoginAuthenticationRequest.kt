@@ -21,7 +21,7 @@ open class LoginAuthRequest(context: Context) : ServerRequest(context), SetReque
     private var pass: String? = null
 
     override suspend fun makeRequest() {
-        setParams();
+        setParams()
         super.prepareRequest(login_auth)
 
         if (response != null) {
@@ -29,7 +29,7 @@ open class LoginAuthRequest(context: Context) : ServerRequest(context), SetReque
                 if (response != null && response!!.status.value == 200) {
                     if (onAuthSuccess != null) {
                         var bundle = Json.decodeFromString<BranchBundle>(response!!.bodyAsText())
-                        onAuthSuccess!!.onAuthSuccess(bundle);
+                        onAuthSuccess!!.onAuthSuccess(bundle)
                     }
                 }
             } catch (e: Exception) {
@@ -38,22 +38,6 @@ open class LoginAuthRequest(context: Context) : ServerRequest(context), SetReque
         } else {
             onErrorListener?.onError(buildThrowable(Blast().title(AUTHENTICATION_FAIL)).msg(TRY_FAIL))
         }
-    }
-
-    fun setPass(pass: String) {
-        this.pass = pass
-    }
-
-    fun getPass(): String? {
-        return pass
-    }
-
-    fun setLogin(login: String) {
-        this.login = login
-    }
-
-    fun getLogin(): String? {
-        return login
     }
 
     fun setAuthSuccess(listener: OnAuthSuccess) {

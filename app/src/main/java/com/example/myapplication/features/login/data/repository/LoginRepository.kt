@@ -12,16 +12,20 @@ import com.example.myapplication.network.server.ServerRequest
 import kotlinx.coroutines.flow.MutableStateFlow
 
 
-class LoginRepository(val context: Context) : LoginAuthRequest(context),
+class LoginRepository(val context: Context) :
     LoginAuthRequest.OnAuthSuccess, ServerRequest.OnErrorListener {
+
     open var onLoginCallback: OnLoginCallback? = null
-    open var onLoginErrorCallback: OnErrorListener? = null
+    open var onLoginErrorCallback: ServerRequest.OnErrorListener? = null
+
+    private val authRequest: LoginAuthRequest = LoginAuthRequest(context)
+
     val set: PerSet = PerSet(context)
     override lateinit var showPop: MutableStateFlow<Blast?>
 
     init {
-        super.setAuthSuccess(this)
-        super.onErrorListener = this
+        authRequest.onErrorListener = this
+        authRequest.setAuthSuccess(this)
     }
 
     override fun onAuthSuccess(bundle: BranchBundle) {
@@ -35,9 +39,8 @@ class LoginRepository(val context: Context) : LoginAuthRequest(context),
         }
     }
 
-    override suspend fun makeRequest() {
-        super.setAuthSuccess(this)
-        super.makeRequest()
+    suspend fun makeRequest() {
+        authRequest.makeRequest()
     }
 
     override fun onError(e: Blast) {
