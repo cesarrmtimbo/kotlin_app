@@ -17,8 +17,8 @@ import kotlinx.serialization.json.Json
 open class LoginAuthRequest(context: Context) : ServerRequest(context), SetRequestClassParams {
 
     private var onAuthSuccess: OnAuthSuccess? = null
-    private var login: String? = null
-    private var pass: String? = null
+    var login: String? = null
+    var pass: String? = null
 
     override suspend fun makeRequest() {
         setParams()

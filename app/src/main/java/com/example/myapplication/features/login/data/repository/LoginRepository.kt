@@ -56,4 +56,13 @@ class LoginRepository(val context: Context) :
         }
     }
 
+    fun setLogin(userName: String) {
+        authRequest.login = userName
+    }
+
+    fun setPass(pass: String) {
+        authRequest.pass = pass
+    }
+
+
 }
