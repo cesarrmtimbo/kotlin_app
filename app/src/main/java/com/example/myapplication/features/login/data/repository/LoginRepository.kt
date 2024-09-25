@@ -39,7 +39,7 @@ class LoginRepository(val context: Context) :
         }
     }
 
-    suspend fun makeRequest() {
+    suspend fun authRequest() {
         authRequest.makeRequest()
     }
 

@@ -11,7 +11,7 @@ import com.example.myapplication.network.server.ServerRequest.OnErrorListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 
-class LoginCubit(open val context: Context, loginRepository: LoginRepository) : OnErrorListener {
+class LoginCubit(loginRepository: LoginRepository) : OnErrorListener {
 
     val Context.dataStore by preferencesDataStore(name = USER_PREFS)
     var scope: CoroutineScope? = null
@@ -29,7 +29,7 @@ class LoginCubit(open val context: Context, loginRepository: LoginRepository) : 
     suspend fun enterBtClick() {
         loginRepository.setLogin(userName.value)
         loginRepository.setPass(password.value)
-        loginRepository.makeRequest()
+        loginRepository.authRequest()
     }
 
     override fun onError(e: Blast) {
